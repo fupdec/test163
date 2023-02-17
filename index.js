@@ -1,6 +1,7 @@
 const express = require('express')
 const app = express()
 const router = express.Router()
+const jsonParser = express.json()
 const history = require('connect-history-api-fallback')
 const cors = require('cors')
 
@@ -21,15 +22,22 @@ app.use(history({
 }))
 app.use(staticFileMiddleware)
 
-router.get('/counter', (req, res) => {
-	// req
-	let query = 'https://www.google.com/'
-	axios.get(query).then((response) => {
+router.post('/counter', jsonParser, (req, res) => {
+	axios.get(req.body.url).then((response) => {
 		if (response.status !== 200) return
 		const html = response.data
 		const $ = cheerio.load(html)
-		res.status(201).send(data)
-	}, (err) => {
+		let result = {
+			styles: [],
+			scripts: []
+		}
+		$('[rel=stylesheet]').each((i,e) => {
+			let href = $(e).attr('href')
+			result.styles.push(href)
+		})
+		result.scripts = $('script').map((i, x) => $(x).attr('src')).toArray()
+		res.status(201).send(result)
+	}).catch((err) => {
 		res.status(500).send({
 			message: err.message || "Some error occurred while performing query."
 		})
