@@ -1,24 +1,21 @@
-# test162
-
-## Project setup
+### Установка проекта
 ```
 npm install
 ```
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
-
-### Compiles and minifies for production
+### Компиляция файлов
 ```
 npm run build
 ```
 
-### Lints and fixes files
+### Запуск проекта
 ```
-npm run lint
+node index.js
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+для проверки открыть в браузере адрес http://localhost:3333/
+
+### Отладка
+```
+npm run serve
+```
